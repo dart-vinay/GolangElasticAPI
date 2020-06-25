@@ -12,6 +12,9 @@
          "createdAt": {
                "type": "date"
          },
+         "state": {
+               "type": "text"
+         },
          "latitude": {
                "type": "float"      
          },

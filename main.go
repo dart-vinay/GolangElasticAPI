@@ -8,7 +8,7 @@ import (
 )
 
 //Command to compile in real time and build
-//  ./CompileDaemon -directory=/Users/vinayaga/Documents/GolangElasticAPI -command=/Users/vinayaga/Documents/GolangElasticAPI/./GolangElasticAPI
+//  ./CompileDaemon -directory=/Users/vinayaga/Documents/Github/GolangElasticAPI -command=/Users/vinayaga/Documents/Github/GolangElasticAPI/./GolangElasticAPI
 
 func main() {
 
