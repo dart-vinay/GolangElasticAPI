@@ -9,24 +9,23 @@ This repository has four main folders and a few data generations scripts:
 * **Data** Contains all the raw data we need to populate our elastic search indexes
 * **handlers** Contains the API definition and corresponding request handlers
 * **models** Contains the structural objects used in this project and DB connection details
-* **util** Contains all the helper function that we need for functioning of our project
+* **util** Contains all the helper function that we need for functioning of our services
 
 ## Installation
 
-Install Golang
-Install ElasticSearch
+Install Golang and ElasticSearch
 
 ## Usage
 
 * Clone the repository
 * Run the elastic server(`Port: 9200`) and run the data creation scripts UserCreation.py and CardsCreation.py for data generation
-* `Go` ahead and run the following from the project root directory
+* `Go` ahead and run the following command from the project root directory:
 
 ```bash
 go run main.go
 ```
 
-To test the behaviour of out we have four major APIs that we have created:
+To test the behavior of out we have four major APIs that we have created:
 - Get all the users belonging to the particular sub-district (prefix query)
 - Get all the cards for a particular user
 - Get top relevant cards for the particular user based on geo-location
