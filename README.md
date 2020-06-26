@@ -118,12 +118,19 @@ Install Golang and ElasticSearch
 go run main.go
 
 ```
+This will start the backend server at `localhost:8080`
 
 To test the behavior of out we have four major APIs that we have created:
-- Get all the users belonging to the particular sub-district (prefix query)
+- Update user's geo-postion
+      -  endPoint: `/changePosition/{userID}/{latitude}/{longitude}`
+- Get all the users belonging to the particular sub-district (prefix query) 
+      - endPoint: `/allUsersForSDCode/{subDistrictCode}`
 - Get all the cards for a particular user
+      - endPoint: `/allCardsForUser/{userID}/`
 - Get top relevant cards for the particular user based on geo-location
+      - endPoint: `/topCards/{latitude}/{longitude}`
 - Get nearest users for the particular user
+      - endPoint: `/topUsers/{latitude}/{longitude}`
 
 Go ahead and test it and let me know your thoughts over this.
 
