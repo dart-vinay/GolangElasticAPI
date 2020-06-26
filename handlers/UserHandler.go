@@ -56,6 +56,7 @@ func GetUsersForSubDistrictCode(w http.ResponseWriter, r *http.Request) {
 			fmt.Printf("User found userID: %s, Latitude: %f, Longitude: %f \n", s.User, s.Longitude, s.Latitude)
 		}
 	}
+	fmt.Println("Success!")
 	json.NewEncoder(w).Encode(users)
 
 }
@@ -111,7 +112,7 @@ func GetTopUsers(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Success!")
 	}
 
-	helper.GetTopUsers(&result, users, longitude, latitude)
+	helper.GetTopTenUsers(&result, users, longitude, latitude)
 
 	json.NewEncoder(w).Encode(result)
 }

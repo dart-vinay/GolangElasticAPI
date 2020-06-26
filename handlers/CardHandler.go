@@ -56,7 +56,7 @@ func GetAllCardsForUser(w http.ResponseWriter, r *http.Request) {
 			fmt.Printf("Cards found cardID: %s, Latitude: %f, Longitude: %f \n", s.CardId, s.Longitude, s.Latitude)
 		}
 	}
-
+	fmt.Println("Success!")
 	json.NewEncoder(w).Encode(cards)
 
 }
@@ -112,7 +112,7 @@ func GetTopCards(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Success!")
 	}
 
-	helper.GetTopCards(&result, cards, longitude, latitude)
+	helper.GetTopTenCards(&result, cards, longitude, latitude)
 
 	json.NewEncoder(w).Encode(result)
 }
