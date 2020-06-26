@@ -121,15 +121,15 @@ go run main.go
 This will start the backend server at `localhost:8080`
 
 To test the behavior of out we have four major APIs that we have created:
-- Update user's geo-postion
+- Update user's geo-position
   - endPoint: `/changePosition/{userID}/{latitude}/{longitude}`
 - Get all the users belonging to the particular sub-district (prefix query) 
   - endPoint: `/allUsersForSDCode/{subDistrictCode}`
 - Get all the cards for a particular user
   - endPoint: `/allCardsForUser/{userID}/`
-- Get top relevant cards for the particular user based on geo-location
+- Get top relevant cards for the particular user based on geo-position
   - endPoint: `/topCards/{latitude}/{longitude}`
-- Get nearest users for the particular user
+- Get nearest users for the particular user based on geo-position
   - endPoint: `/topUsers/{latitude}/{longitude}`
 
 Go ahead and test it and let me know your thoughts over this.
