@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	handler "./handlers"
 )
@@ -15,7 +14,5 @@ func main() {
 	fmt.Println("Starting GolangElasticAPI Application...")
 
 	handler.HandleRequests()
-
-	time.Sleep(10 * time.Minute)
 
 }

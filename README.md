@@ -4,7 +4,7 @@
 
 The repository aims to provide interation of Golang with ElasticSearch DB. The thought used in building the APIs is based on providing relevant NewsBlocks (referred as `cards` in this project) for a user based on his/her geo-location.
 
-This repository has four main folders and a few data generations scripts:
+This repository has four main folders and a few data generation scripts:
 
 * **Data** Contains all the raw data we need to populate our elastic search indexes
 * **handlers** Contains the API definition and corresponding request handlers
@@ -18,11 +18,105 @@ Install Golang and ElasticSearch
 ## Usage
 
 * Clone the repository
-* Run the elastic server(`Port: 9200`) and run the data creation scripts UserCreation.py and CardsCreation.py for data generation
+* Run the elastic server(`Port: 9200`)
+* Create index `users` using the following structure:
+
+```javascript
+{
+      "settings": {
+            "number_of_shards": 1,
+            "number_of_replicas": 1,
+            "analysis": {
+                  "analyzer": {
+                        "not_analyzed": {
+                              "type": "custom",
+                              "tokenizer": "standard"
+                        }
+                  }
+            }
+      },
+      "mappings": {
+            "properties": {
+                  "user": {
+                        "type": "text",
+                        "analyzer": "not_analyzed"
+                  },
+                  "createdAt": {
+                        "type": "date"
+                  },
+                  "state": {
+                        "type": "text"
+                  },
+                  "latitude": {
+                        "type": "float"      
+                  },
+                  "longitude": {
+                        "type": "float"
+                  },
+                  "subDistrictCode": {
+                        "type": "text",
+                        "analyzer": "not_analyzed"
+                  }
+            }
+      }
+}
+```
+
+* Create index `cards` using the following structure:
+
+```javascript
+{
+      "settings": {
+            "number_of_shards": 1,
+            "number_of_replicas": 1,
+            "analysis": {
+                  "analyzer": {
+                        "not_analyzed": {
+                              "type": "custom",
+                              "tokenizer": "standard"
+                        }
+                  }
+            }
+      },
+      "mappings": {
+            "properties": {
+                  "cardId": {
+                        "type": "text",
+                        "analyzer": "not_analyzed"
+                  },
+                  "createdAt": {
+                        "type": "date"
+                  },
+                  "title": {
+                        "type": "text"
+                  },
+                  "state": {
+                        "type": "text"
+                  },
+                  "latitude": {
+                        "type": "float"      
+                  },
+                  "longitude": {
+                        "type": "float"
+                  },
+                  "subDistrictCode": {
+                        "type": "text",
+                        "analyzer": "not_analyzed"
+                  },
+                  "createdBy": {
+                        "type": "text",
+                        "analyzer": "not_analyzed"
+                  }
+            }
+      }
+}
+```
+* Run the data creation scripts UserCreation.py and CardsCreation.py for data generation
 * `Go` ahead and run the following command from the project root directory:
 
 ```bash
 go run main.go
+
 ```
 
 To test the behavior of out we have four major APIs that we have created:

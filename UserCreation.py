@@ -10,7 +10,7 @@ from datetime import datetime, date
 
 host = "localhost"
 port = "9200"
-apiEndPoint = "/users/doc"
+apiEndPoint = "/users/_doc"
 
 
 def myconverter(o):

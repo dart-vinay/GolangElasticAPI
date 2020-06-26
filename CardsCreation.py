@@ -10,7 +10,7 @@ from datetime import datetime, date
 
 host = "localhost"
 port = "9200"
-apiEndPoint = "/cards/doc"
+apiEndPoint = "/cards/_doc"
 
 
 def myconverter(o):
@@ -50,8 +50,8 @@ def generate():
             "cardId": id,
             "createdAt": "2020-06-25T12:42:31Z",
             "title" : title,
-            "latitude": latitude,
             "state" : "PUBLISH",
+            "latitude": latitude,
             "longitude": longitude,
             "subDistrictCode": subDistrictCode,
             "createdBy": createdBy

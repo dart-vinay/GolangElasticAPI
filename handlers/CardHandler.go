@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	model "../models"
 	helper "../util"
@@ -24,19 +23,19 @@ func GetAllCardsForUser(w http.ResponseWriter, r *http.Request) {
 	searchSource := elastic.NewSearchSource()
 	searchSource.Query(elastic.NewMultiMatchQuery(userID, "createdBy"))
 
-	// To verify the query
-	queryStr, err1 := searchSource.Source()
-	queryJs, err2 := json.Marshal(queryStr)
+	/// Validate Query
+	isValid := helper.ValidateQuery(searchSource)
 
-	if err1 != nil || err2 != nil {
-		fmt.Println("[esclient][GetResponse]err during query marshal=", err1, err2)
+	if !isValid {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
-	fmt.Println("[esclient]Final ESQuery=\n", string(queryJs))
 
 	searchService := ESClientGlobal.Search().Index("cards").SearchSource(searchSource).Size(numberOfRecords)
 	searchResult, err := searchService.Do(ctxGlobal)
 	if err != nil {
-		fmt.Println("[ProductsES][GetPIds]Error=", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Println("Invalid Result", err)
 		return
 	}
 
@@ -44,7 +43,8 @@ func GetAllCardsForUser(w http.ResponseWriter, r *http.Request) {
 		var card model.Card
 		err := json.Unmarshal(hit.Source, &card)
 		if err != nil {
-			fmt.Println("[Getting Cards][Unmarshal] Err=", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Println("Error unmarshalling", err)
 		}
 		cards = append(cards, card)
 	}
@@ -63,28 +63,36 @@ func GetAllCardsForUser(w http.ResponseWriter, r *http.Request) {
 
 func GetTopCards(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Inside GetTopCards method")
-	vars := mux.Vars(r)
 
+	vars := mux.Vars(r)
 	var cards []model.Card
 	var result []model.Card
 	numberOfRecords := 200
 
-	searchSource := elastic.NewSearchSource()
-	searchSource.Query(elastic.NewMatchAllQuery())
+	//Validate Input
+	latitude, longitude, validParams := helper.ValidateInput(vars["latitude"], vars["longitude"])
 
-	// To verify the query
-	queryStr, err1 := searchSource.Source()
-	queryJs, err2 := json.Marshal(queryStr)
-
-	if err1 != nil || err2 != nil {
-		fmt.Println("[esclient][GetResponse]err during query marshal=", err1, err2)
+	if !validParams {
+		fmt.Println("Invalid Params")
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
-	fmt.Println("[esclient]Final ESQuery=", string(queryJs))
+
+	searchSource := elastic.NewSearchSource().Query(elastic.NewMatchAllQuery())
+
+	// Validate Query
+	isValid := helper.ValidateQuery(searchSource)
+
+	if !isValid {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	searchService := ESClientGlobal.Search().Index("cards").SearchSource(searchSource).Size(numberOfRecords)
 	searchResult, err := searchService.Do(ctxGlobal)
 	if err != nil {
-		fmt.Println("[ProductsES][GetPIds]Error=", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Println("Invalid Result", err)
 		return
 	}
 
@@ -92,7 +100,8 @@ func GetTopCards(w http.ResponseWriter, r *http.Request) {
 		var card model.Card
 		err := json.Unmarshal(hit.Source, &card)
 		if err != nil {
-			fmt.Println("[Getting Cards][Unmarshal] Err=", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Println("Error unmarshalling", err)
 		}
 		cards = append(cards, card)
 	}
@@ -102,17 +111,8 @@ func GetTopCards(w http.ResponseWriter, r *http.Request) {
 	} else {
 		fmt.Println("Success!")
 	}
-	latitude, err3 := strconv.ParseFloat(vars["latitude"], 64)
-	longitude, err4 := strconv.ParseFloat(vars["longitude"], 64)
 
-	if err3 != nil || err4 != nil {
-		fmt.Println("Invalid Params")
-		return
-	}
-
-	fmt.Println(latitude, longitude)
-
-	helper.GetTopCards(&result, cards, latitude, longitude)
+	helper.GetTopCards(&result, cards, longitude, latitude)
 
 	json.NewEncoder(w).Encode(result)
 }

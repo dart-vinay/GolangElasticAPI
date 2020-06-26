@@ -44,10 +44,11 @@ func HandleRequests() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 
 	//RequestMappings
-	myRouter.HandleFunc("/allCards/{userID}/", GetAllCardsForUser)
+	myRouter.HandleFunc("/allCards/{userID}/", GetAllCardsForUser).Methods("GET")
 	myRouter.HandleFunc("/allUsers/{subDistrictCode}", GetUsersForSubDistrictCode)
-	myRouter.HandleFunc("/topUsers/{latitude}/{longitude}", GetTopUsers)
-	myRouter.HandleFunc("/topCards/{latitude}/{longitude}", GetTopCards)
+	myRouter.HandleFunc("/topUsers/{latitude}/{longitude}", GetTopUsers).Methods("GET")
+	myRouter.HandleFunc("/topCards/{latitude}/{longitude}", GetTopCards).Methods("GET")
+	myRouter.HandleFunc("/changePosition/{userID}/{latitude}/{longitude}", UpdateUserLocation).Methods("PUT")
 
 	log.Fatal(http.ListenAndServe(":8080", myRouter))
 
