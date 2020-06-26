@@ -120,7 +120,7 @@ go run main.go
 ```
 This will start the backend server at `localhost:8080`
 
-To test the behavior out we have four major APIs that we have created:
+To test the behavior out we have five APIs:
 - Update user's geo-position
   - endPoint: `/changePosition/{userID}/{latitude}/{longitude}`
 - Get all the users belonging to the particular sub-district (prefix query) 
