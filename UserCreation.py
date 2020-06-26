@@ -43,7 +43,7 @@ def generate():
 
         json_str = {
             "user": id,
-            "createdAt": "2018-09-22T12:42:31Z",
+            "createdAt": "2020-06-25T12:42:31Z",
             "latitude": latitude,
             "longitude": longitude,
             "subDistrictCode": subDistrictCode
