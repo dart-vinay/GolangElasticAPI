@@ -53,6 +53,7 @@ func ValidateInput(strlatitude string, strlongitude string) (float64, float64, b
 }
 
 // returns top 10 Users at least distance from the given Users
+//Can be optimized using Bubble Sort/Selection Sort/Heaps since we want only top 10 results
 func GetTopTenUsers(result *[]model.User, users []model.User, longitude float64, latitude float64) {
 
 	p := getGeoPoint(latitude, longitude)
@@ -70,6 +71,7 @@ func GetTopTenUsers(result *[]model.User, users []model.User, longitude float64,
 }
 
 // returns top 10 Cards at least distance from the given Users
+//Can be optimized using Bubble Sort/Selection Sort/Heaps since we want only top 10 results
 func GetTopTenCards(result *[]model.Card, cards []model.Card, longitude float64, latitude float64) {
 	p := getGeoPoint(latitude, longitude)
 	slice.Sort(cards[:], func(i, j int) bool {
